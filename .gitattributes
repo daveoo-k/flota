@@ -1,0 +1,2 @@
+# Skrypty powłoki zawsze z końcami linii LF (uruchamiane na Linuksie/Vercelu).
+*.sh text eol=lf

@@ -1,16 +1,16 @@
-Flota/__pycache__/__init__.cpython-39.pyc
-Flota/__pycache__/wsgi.cpython-39.pyc
-Flota/__pycache__/__init__.cpython-39.pyc
-Flota/__pycache__/settings.cpython-39.pyc
-Flota/__pycache__/urls.cpython-39.pyc
-Flota/__pycache__/wsgi.cpython-39.pyc
-Pojazd/__pycache__/__init__.cpython-39.pyc
-Pojazd/__pycache__/admin.cpython-39.pyc
-Pojazd/__pycache__/formularze.cpython-39.pyc
-Pojazd/__pycache__/models.cpython-39.pyc
-Pojazd/__pycache__/views.cpython-39.pyc
-Pojazd/migrations/__pycache__/__init__.cpython-39.pyc
-Flota/__pycache__/urls.cpython-39.pyc
-Pojazd/__pycache__/models.cpython-39.pyc
-Pojazd/__pycache__/formularze.cpython-39.pyc
-Pojazd/__pycache__/views.cpython-39.pyc
+# Python
+__pycache__/
+*.py[cod]
+*.swp
+
+# Środowisko / sekrety
+.env
+.venv/
+venv/
+
+# Django
+staticfiles/
+
+# Pliki budowane / lokalne dane (na produkcji: Postgres + Cloudinary)
+# Istniejące pliki w repo zostają; te wpisy dotyczą nowych kopii.
+*.sqlite3

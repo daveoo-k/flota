@@ -33,7 +33,7 @@ class HistoriaForm(forms.Form):
     data_wydarzenia     = forms.DateField ()
     opis                = forms.CharField (max_length=10000, widget=forms.Textarea)
     aktualny_przebieg   = forms.IntegerField()
-    zdjecie             = forms.FileField (required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    zdjecie             = forms.FileField (required=False)
     rachunek            = forms.FileField (required=False)
 
     @property

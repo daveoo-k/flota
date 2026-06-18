@@ -11,7 +11,8 @@ from django.db.models import Q
 from django.contrib.auth.context_processors import PermWrapper
 from django.utils import timezone
 from datetime import timedelta
-import smtplib
+from django.conf import settings
+from django.core.mail import EmailMessage
 
 
 # Create your views here.
@@ -19,30 +20,28 @@ def home_view(request):
     return render (request, "base.html",{} )
 
 def kontakt_view(request):
-    if request.method=='POST':
+    sent = False
+    if request.method == 'POST':
         kontakt = request.POST
-
-        gmail_user = 'jakbruttonetto@gmail.com'
-        gmail_password = 'root2021%'
-
-        sent_from = kontakt['email']
-        to = ['jakbruttonetto@gmail.com']
-        subject = 'Formularz kontaktowy ze strony FleetManager: "' + str(kontakt['subject']) + '"'       
-        text = kontakt['body']
-        email_text = 'Subject: {}\n\n{}'.format(subject, text)
+        subject = 'Formularz kontaktowy ze strony FleetManager: "%s"' % kontakt.get('subject', '')
+        body = kontakt.get('body', '')
+        reply_to = kontakt.get('email', '')
+        recipient = settings.CONTACT_RECIPIENT
 
         try:
-            server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-            server.ehlo()
-            server.login(gmail_user, gmail_password)
-            server.sendmail(sent_from, to, email_text)
-            server.close()
+            EmailMessage(
+                subject=subject,
+                body=body,
+                from_email=settings.EMAIL_HOST_USER or None,
+                to=[recipient] if recipient else [],
+                reply_to=[reply_to] if reply_to else None,
+            ).send(fail_silently=False)
+            sent = True
+            print('Email sent!')
+        except Exception as exc:
+            print('Something went wrong...', exc)
 
-            print ('Email sent!')
-        except:
-            print ('Something went wrong...')
-
-    return render (request, "kontakt.html",{} )
+    return render (request, "kontakt.html", {'sent': sent})
 
 def handle_uploaded_file(f):
     with open('img/%Y/%m/%d/'+f, 'wb+') as destination:
