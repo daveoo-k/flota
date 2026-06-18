@@ -63,11 +63,12 @@
       </div>
     </div>
     <form method="POST" action="">
-      <input type='hidden' name="reg" value="{{obj.rejestracja}}">{% csrf_token %}
-      <input type='hidden' name="ok" value="zapisz">{% csrf_token %}
-     <tr><td></td> <td><input type='submit' value='zapisz' name='ok'></td></tr>
-      </form>
-  </div>d
+      {% csrf_token %}
+      <input type="hidden" name="reg" value="{{ obj.rejestracja }}">
+      <input type="hidden" name="ok" value="zapisz">
+      <input type="submit" class="btn btn-success" value="zapisz">
+    </form>
+  </div>
   {% endif %}
 
 

@@ -116,11 +116,19 @@ def pojazd_create_view(request,*args,**kwargs):
             else:
                 print(form_dane.errors)
 
-        if  request.POST.get('ok'): 
-            temp = Pojazdtemp.objects.filter(rejestracja = request.session['temp']).values()
-            temp[0]['id']=0                             # przenoszenie z tabeli temp do głównej
-            temp = Pojazd.objects.create(**temp[0]) 
-            return redirect("../nowa-opona/?"+ request.session['temp']) # do tworzenia opon i dalej felg 
+        if  request.POST.get('ok'):
+            # rejestracja z formularza (pewniejsze niz sesja na serverless), z fallbackiem do sesji
+            reg = request.POST.get('reg') or request.session.get('temp')
+            rows = Pojazdtemp.objects.filter(rejestracja=reg).values() if reg else None
+            if not rows:
+                # brak danych tymczasowych (np. odswiezenie/utracona sesja) -> zacznij od nowa
+                return redirect('../nowy/')
+            dane = dict(rows[0])
+            dane.pop('id', None)                        # nowy klucz glowny, nie nadpisuj id=0
+            Pojazd.objects.create(**dane)               # przeniesienie z tabeli temp do glownej
+            Pojazdtemp.objects.filter(rejestracja=reg).delete()
+            request.session.pop('temp', None)
+            return redirect("../nowa-opona/?" + reg)    # do tworzenia opon i dalej felg
 
         context = {
             'form' : form_pojazd,
@@ -134,8 +142,8 @@ def pojazd_create_view(request,*args,**kwargs):
 @login_required(redirect_field_name='login')
 def zapisz_view (request):
 
-    item = request.session['temp']
-    if request.session['temp'] :
+    item = request.session.get('temp')
+    if item:
         print (item)
 
     return render (request, "item_display.html",{})
