@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+    <h2>Dodaj nowe Koła do pojazdu </h2>
+    </div>
+ 
+    <div class="card-body">
+        <div class="row">
+        <div class="p-4 col-sm-12 col-md-12 col-lg-6">
+            
+        <table class="ms-4">
+        <form method="POST">
+        {% if form_o %}
+        {{ form_o.as_table}} {% csrf_token %}
+
+        {% endif %}
+        {% if temp_o.nazwa_opony %}
+        {{ temp_o.nazwa_opony }}<br>
+        {{ temp_o.rok_produkcji }}<br>
+        {{ temp_o.opis }}<br>
+        {% endif %}
+     
+    
+    </table>
+        </div>
+        <div class="p-4 col-sm-12 col-md-12 col-lg-6">
+
+    <table class="ms-4">   
+            {% if form %}
+            {{ form.as_table}}
+            <tr><td></td> <td><input type='submit' class="btn-sm btn-danger>" value='zapisz'></td></tr>
+            {% endif %}
+        </form>
+            {% csrf_token %}
+            <form method="GET" >
+            {% if temp_f.nazwa_felgi %}
+            {{ temp_f.nazwa_felgi }}<br>
+            {{ temp_f.sruby }}<br>
+            {{ temp_f.opis }}<br>
+            <tr><td></td> <td><input type='submit' class="btn-sm btn-danger>" value='all good'></td></tr>
+            </form>
+            {% endif %}
+    
+    </table>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

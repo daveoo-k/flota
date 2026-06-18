@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+
+        <div class="d-flex bd-highlight mb-0">
+            <div class="me-auto p-1 bd-highlight">
+                {% if perms.Pojazd.delete_pojazdhistoria %} 
+                <form method="GET" action=''>
+                <input type='submit' class="btn-sm btn-success"  value='Nowy wpis'>
+                </form>  {% endif %}       
+            </div>
+            <div class="p-1 bd-highlight">
+                <form method="POST">
+                szukaj: <input type='text' name="opis" maxlength="100" name='kola'> {% csrf_token %}
+            </div>   
+            <div class="p-1 bd-highlight">  
+                <input type='submit' class="btn-sm btn-success"  value='szukaj'>    </form>
+            </div>
+          </div>   
+    </div>
+    <div class="card-body" style='padding-left: 2em;'>
+
+<div name='row'class="row">
+ 
+    <div class='row'> znalezionych : {{ e }} </br></div>
+
+   {% for record, values in context.items %}
+   <div class="row">
+    <div class='col-2' >
+      <div class='row'>{{ values.data_wydarzenia }} </div> 
+      <div class='row'>{{ values.rejestracja }} </div> 
+      <div class='row'>{{ values.aktualny_przebieg }} </div> 
+    </div>
+    <div class='col-9'>{{ values.wydarzenie }}</br>{{ values.opis }}  </div>
+    <div class='col-1'> <a href=''> wiecej </a> </br></div>
+<hr/>
+</div> 
+    {% endfor %}
+
+</div>
+</div>
+</div>
+
+
+{% endblock %}
+
+
+
+{% block content_2 %}
+
+
+
+{%  endblock %}

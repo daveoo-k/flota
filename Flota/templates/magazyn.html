@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class='card-header'>
+
+        <div class="d-flex bd-highlight mb-0">
+            <div class="me-auto p-1 bd-highlight">
+                <div class="d-inline-flex" >
+                {% if perms.Pojazd.add_opona %} 
+                <form method="GET" action='../nowa-opona/'>
+                <input type='submit' class="btn-sm btn-success"  value='Dodaj Opony'>
+                </form>  {% endif %}
+                </div>
+            
+                <div class="d-inline-flex" >
+                {% if perms.Pojazd.add_felga %}
+                <form method="GET" action='../nowa-felga/'>
+                <input type='submit' class="btn-sm btn-success" value='Dodaj Felgi'>
+                </form>{% endif %}
+                </div>
+            </div>
+            <div class="p-1 bd-highlight">
+                <form method="POST">
+                nazwa: <input type='text' maxlength="100" name='kola'> {% csrf_token %}
+            </div>
+    
+            <div class="p-1 bd-highlight">  
+                <input type='submit' class="btn-sm btn-success"  value='szukaj'>    </form>
+            </div>
+
+          </div>   
+    </div>
+<div class='card-body' >
+<div class="row">
+<div class="p-4 col-sm-12 col-md-12 col-lg-6" style='padding-right : 2em;'>
+    <div name='row' class="row">
+      
+        <div class='cell'>   </div>
+        <div class='col-8'> opony : {{ e }}</div>
+        <hr/>
+       {% for instance in opona_list %}
+       <div style="border: 1px #ccc solid; margin-bottom: 0.5em;background-color: #fcfcfc;">
+        <div name='row'class="row ps-3 pb-3"> {{ instance.producent }}  {{ instance.rozmiar }}  {{ instance.sezon }}  </div> 
+        <div class="row">
+        <div class="col-4"> <img src="{{instance.zdjecie.url}}" style="max-height: 150px;"></div>    
+        <div class='col-8' >   {{ instance.opis }} </br></div>
+        </div>
+        <div class='d-flex justify-content-end pe-2 pb-2'> <a href="../przedmiot/B{{ instance.id }}"> więcej </a> </br></div>
+        
+       </div>
+        {% endfor %}
+    
+    </div>
+    </div>
+
+    <div class="p-4 col-sm-12 col-md-12 col-lg-6" style='padding-left : 2em;'>
+        <div name='row' class="row">
+          
+            <div class='cell'>   </div>
+            <div class='col-8'> felgi : {{ e }}</div>
+            <hr/>
+           {% for instance in felga_list %}
+           <div style="border: 1px #ccc solid; margin-bottom: 0.5em; background-color: #fcfcfc;">
+            <div name='row'class="row ps-3 pb-3"> {{ instance.nazwa_felgi }} </div> 
+            <div class="row">
+            <div class="col-4">{% if instance.zdjecie %} <img src="{{instance.zdjecie.url}}" style="max-height: 150px;">{% else %} <img src="{{BASE_DIR}}/media/img/templates/nophoto.png" style="max-height: 150px;">{% endif %}</div>    
+            <div class='col-8' >   {{ instance.opis }} </br></div>
+            </div>
+            <div class='d-flex justify-content-end pe-2 pb-2'> <a href="../przedmiot/A{{ instance.id }}"> więcej </a> </br></div>
+            
+           
+        </div>
+            {% endfor %}
+        
+        </div>
+        </div>
+
+
+</div>
+</div>
+
+</div>
+
+{% endblock %}
+
+
+
+{% block content_2 %}
+
+
+
+{%  endblock %}

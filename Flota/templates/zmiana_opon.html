@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class='col-3'>    Pojazd : </div>
+  
+      <div class='col-2'>  Historia pojazdu :</a> </br></div>
+  </div> 
+
+  </div>
+  <div class="card-body">
+
+   
+
+   <div class="row">
+        <div class="col-1">
+        <div> Marka</div>
+        <div> Model : </div>
+        <div> Rocznik : </div>
+        <div> Silnik  :</div>
+        <div> Tablice : </div>
+        <div> Kolor : </div>
+        <div> Zakup : </div>
+        <div>  </div>
+        </br>
+        <div> Opony : </div>
+        <div> Felgi :</div>
+        <div><a href=''> zmień</a>  </div>
+    
+      </div>
+
+      <div class="col-2">
+        <div> {{ obj.marka }}</div>
+        <div> {{ obj.model }} </div>
+        <div> {{ obj.rok_produkcji }} </div>
+        <div>  {{ obj.silnik }} </div>
+        <div>  {{ obj.rejestracja }} </div>
+        <div> {{ obj.kolor }} </div>
+        <div>  {{ obj.data_zakupu}} </div>
+        <div>  </div>
+        </br>
+        <div>   </div>
+        <div>   </div>
+ 
+    
+      </div>
+
+        <div class="col-8"> 
+          
+          Zmien obecne opony : {{ obj.opony }} na felgach : {{ obj.felgi}} </br></br>
+          <div class='container'>
+          <form method="POST" action=''>
+              {{ form.as_p}}{% csrf_token %}
+              <input type="hidden" name='reg' value='{{ obj.rejestracja }}'>
+              <input type='submit'  value='zamień'>
+          </form>
+          </div>
+         
+          
+          
+          <div> 
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-2">
+    <blockquote class="blockquote mb-0"></blockquote>
+      <p class="text-justify">
+    </p>
+
+    <footer class="blockquote-footer"><cite title="Source Title">Auto musi jezdzic</cite></footer>
+    </blockquote>
+  </div>
+
+  </body>  
+    {%  endblock %}

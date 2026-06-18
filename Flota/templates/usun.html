@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+  <div class="card-header">
+    Czy napewno chcesz usunąć : {{ rejestracja }} {{ nazwa }} ?
+    <form type="POST" action="" >  {% csrf_token %}<input name="usun"  class="btn-sm btn-danger" type='submit' value='usuń'></form>
+  </div>
+  <div class="card-body">
+
+    <blockquote class="blockquote mb-0">
+      <footer class="blockquote-footer"><cite title="Source Title">Auto musi jezdzic</cite></footer>
+    </blockquote>
+  </div>
+  </div>
+  </body>  
+    {%  endblock %}

@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        {% if obj.nazwa_felgi %}
+    <h2>{{obj.nazwa_felgi}}</h2>
+    </div>
+    <div class="card-body">
+        <table class="table table-light table-striped">
+
+            <tr><td>Śruby</td><td>{{ obj.sruby }}</td></tr>
+            <tr><td>Opis</td><td>{{ obj.opis }}</td></tr>
+
+            <tr><td>W użytku na :</td><td>{{ obj.w_uzytku }}</td></tr>
+            
+            <tr><td>W posiadaniu od :</td><td>{{ obj.data_dodania }}</td></tr>
+            {% if obj.rachunek %}
+            <tr><td>Rachunek :</td><td><a href="{{ obj.rachunek.url}}">{{ obj.rachunek.name }}</a></td></tr>
+            {% endif %}
+
+            {% if perms.Pojazd.delete_felga %}
+            <tr><td>dodał :</td><td>{{ obj.dodal }}</td></tr>
+            {% if obj.zdjecie %}
+            <tr><td>Zdjecie:</td><td><img class="img-fluid"  src="{{ obj.zdjecie.url}}"></td></tr>
+            {% endif %}
+            <tr><td> </td><td><form method="GET" action='../usun-przedmiot/A{{ obj.id }}'>
+                                <input type='submit' class="btn-sm btn-danger" value='usuń'>
+                                         </form></td></tr>
+                                         {% endif %}
+          </table> 
+         
+    </div>
+    {% elif obj.nazwa_opony %}
+    <h2>{{obj.nazwa_opony}}</h2>
+    </div>
+    <div class="card-body">
+        <table class="table table-light table-striped">
+            <tr><td>Producent</td><td>{{ obj.producent }}</td></tr>
+            <tr><td>Model</td><td>{{ obj.model }}</td></tr>
+            <tr><td>Rozmiar</td><td>{{ obj.rozmiar }}</td></tr>     
+            <tr><td>Rok Produkcji</td><td>{{ obj.rok_produkcji }}</td></tr>     
+            <tr><td>Sezon</td><td>{{ obj.sezon }}</td></tr>            
+            <tr><td>Opis</td><td>{{ obj.opis }}</td></tr>
+            {% if obj.zdjecie %}
+            <tr><td>Zdjecie:</td><td><img class="img-fluid" style='max-height: 100px;'  src="{{ obj.zdjecie.url}}"></td></tr>
+            {% endif %}
+            <tr><td>W użytku na :</td><td>{{ obj.w_uzytku }}</td></tr>
+            <tr><td>W posiadaniu od :</td><td>{{ obj.data_dodania }}</td></tr>
+            {% if obj.rachunek %}
+            <tr><td>Rachunek :</td><td><a href="{{ obj.rachunek.url}}">{{ obj.rachunek.name }}</a></td></tr>
+            {% endif %}
+
+            {% if perms.Pojazd.delete_opona %}
+            <tr><td>dodał :</td><td>{{ obj.dodal }}</td></tr>
+            <tr><td> </td><td><form method="GET" action='../usun-przedmiot/B{{ obj.id }}'>
+                <input type='submit' class="btn-sm btn-danger" value='usuń'>
+                         </form></td></tr>
+                         {% endif %}
+          </table> 
+
+          {% elif obj.wydarzenie%}
+          
+          <h2>{{obj.wydarzenie}}</h2>
+          </div>
+          <div class="card-body">
+              <table class="table table-light table-striped">
+
+                <tr><td>Rejestracja :</td><td>{{ obj.rejestracja }}</td></tr>
+                  <tr><td>Opis : </td><td>{{ obj.opis }}</td></tr>
+
+                  <tr><td>Data wydarzenia:</td><td>{{ obj.data_wydarzenia }}</td></tr>
+                  <tr><td>Aktualny przebieg:</td><td>{{ obj.aktualny_przebieg }}</td></tr>
+                  <tr><td>Data dodania :</td><td>{{ obj.data_dodania}}</td></tr>
+                  <tr><td>Dodał :</td><td>{{ obj.dodal}}</td></tr>
+                  {% if obj.zdjecie %}
+                  <tr><td>Zdjecie:</td><td><img class="img-fluid" src="{{ obj.zdjecie.url}}"></td></tr>
+                  {% endif %}
+                  {% if obj.rachunek %}
+                  <tr><td>Rachunek :</td><td><a href="{{ obj.rachunek.url}}">{{ obj.rachunek.name }}</a></td></tr>
+                  {% endif %}
+                  {% if perms.Pojazd.delete_pojazdhistoria %}
+         
+                  <tr><td> </td><td><form method="GET" action='../usun-przedmiot/H{{ obj.id }}'>
+                      <input type='submit' class="btn-sm btn-danger" value='usuń'>
+                               </form></td></tr>
+                               {% endif %}
+                             
+                </table> 
+
+
+
+          {% else %}
+          <h2>{{obj.nazwa}}</h2>
+    </div>
+    <div class="card-body">
+        <table class="table table-light table-striped">
+
+            <tr><td>Opis</td><td>{{ obj.opis }}</td></tr>
+            {% if obj.zdjecie %}
+            <tr><td>Zdjecie:</td><td><img class="img-fluid"  src="{{ obj.zdjecie.url}}"></td></tr>
+            {% endif %}
+            <tr><td>W użytku na :</td><td>{{ obj.w_uzytku }}</td></tr>
+            <tr><td>W posiadaniu od :</td><td>{{ obj.data_dodania }}</td></tr>
+            {% if obj.rachunek %}
+            <tr><td>Rachunek :</td><td><a href="{{ obj.rachunek.url}}">{{ obj.rachunek.name }}</a></td></tr>
+            {% endif %}
+
+            {% if perms.Pojazd.delete_pojazd %}
+            <tr><td>dodał :</td><td>{{ obj.dodal }}</td></tr>
+            <tr><td> </td><td><form method="GET" action='../usun-przedmiot/C{{ obj.id }}'>
+                <input type='submit' class="btn-sm btn-danger" value='usuń'>
+                         </form></td></tr>
+                         {% endif %}
+          </table> 
+
+          {% endif %}
+    </div>       
+</div>
+
+{% endblock %}
+
+

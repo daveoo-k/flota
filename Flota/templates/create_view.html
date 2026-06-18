@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% now "Y-m-d" as today %}
+
+<div class="card">
+    <div class="card-header">
+
+    <h2>Dodaj nowy pojazd</h2>
+    </div>
+    {% if not obj.marka %}
+    <div class="card-body">
+      <div class="row justify-content-center">
+        <div class="col-auto">
+    
+        <table class="ms-2 text-end" >
+    <form method="POST" action='' enctype="multipart/form-data">
+    {{ form.as_table}}{% csrf_token %}
+   <tr><td></td> <td><input type='submit' value='zapisz'></td></tr>
+    </form>
+</table>
+</div>
+</div>  
+
+
+{% elif obj.marka %}
+<div class="accordion-body">
+    <div class="card-body">
+      <div class='d-flex row'>   
+        <div class="p-4 col-sm-12 col-md-12 col-lg-6 text-center">
+          {%if obj.zdjecie.url > "" %}
+          <img src = ' {{ obj.zdjecie.url }} ' class="img-fluid" style=' padding: 5px;' >
+          {% endif %}
+          <table class="table table-light table-striped">
+            <tr><td>Marka</td><td>{{ obj.marka }}</td></tr>
+            <tr><td>Model</td><td>{{ obj.model }}</td></tr>
+            <tr><td>Kolor</td><td>{{ obj.kolor }}</td></tr>
+            <tr><td>Rocznik</td><td>{{ obj.rok_produkcji }}</td></tr>
+            <tr><td>Silnik</td><td>{{ obj.silnik }}</td></tr>
+          </table>
+        </div>
+        <div class="p-4 col-sm-12 col-md-12 col-lg-6">
+          <table class="table table-light table-striped">
+            <tr><td>Przebieg</td><td>{{ obj.przebieg }}km</td></tr>
+            <tr><td>Tablice</td><td>{{ obj.rejestracja }}</td></tr> 
+            <tr><td>Zakup</td><td>{{ obj.data_zakupu}}</td></tr>
+
+  
+            <tr><td>Nastepny przegląd :</td><td>
+            {{ obj.n_przeglad }}</p>
+    
+            <tr><td>Polisa ważna do :</td><td>
+        
+             {{ obj.oc_do}}  
+            </td></tr>
+              
+              
+              {% if obj.oc_do|date:"Y-m-d"  <=  today %}<p class="text-danger"> {{ obj.oc_do|date:"m-d-Y" }}</p>  {% else %} {{ obj.oc_do|date:"m-d-Y" }} {% endif %}</td></tr>
+            <tr><td>nr Polisy :</td><td>{{ obj.nr_polisy}}</td></tr>
+          <tr> <img src="{{ obj_media }}">{{ obj_media }}</tr>
+          </table>       
+        </div>
+      </div>
+    </div>
+    <form method="POST" action="">
+      <input type='hidden' name="reg" value="{{obj.rejestracja}}">{% csrf_token %}
+      <input type='hidden' name="ok" value="zapisz">{% csrf_token %}
+     <tr><td></td> <td><input type='submit' value='zapisz' name='ok'></td></tr>
+      </form>
+  </div>d
+  {% endif %}
+
+
+
+    </div>
+</div>
+{% endblock %}

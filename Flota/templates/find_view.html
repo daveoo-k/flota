@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card" >
+    <div class="card-header">
+
+        <div class="d-flex bd-highlight mb-0">
+            <div class="me-auto p-1 bd-highlight">
+                <div class="d-inline-flex" >
+                   
+                </div>
+            
+                <div class="d-inline-flex" >
+                {% if perms.Pojazd.add_felga %}
+                <a href="{% url 'nowy' %}" class="btn-sm btn-success" value='Dodaj'> Nowy Pojazd</a>
+                </form>{% endif %}
+                </div>
+            </div>
+
+            <div class="p-1 bd-highlight">
+                <form method="POST">
+                    Rejestracja :
+                <input type='text' maxlength="100" name='rejestracja'> {% csrf_token %}
+            </div>
+    
+            <div class="p-1 bd-highlight">  
+                <input type='submit' class="btn-sm btn-success"  value='szukaj'>
+                    </form>
+            </div>
+
+          </div>   
+        </div>  
+<div class="card-body">
+<div class="row">
+  
+    <div class='d-flex justify-content-end'> 
+        <div class="bd-highlight"> znaleziono : {{ e }}</div> <hr/>
+    </div>
+
+   {% for record, values in context.items %}
+<div class='d-flex justify-content-start' > 
+        <div class="bd-highlight">  {{ values.rejestracja }}</div>
+        <div class="bd-highlight ms-3">           
+           {% if values.przypisany == user.username %}  
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-check-square" viewBox="0 0 16 16">
+            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+            <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.235.235 0 0 1 .02-.022z"/>
+          </svg>  {% endif %}
+        </div> 
+    </div>
+    <div class="d-flex justify-content-between" style="font-size:0.9em;">
+        <div class='col-2 col-lg-2'>   {{ values.marka }} </br></div>
+        <div class='col-2 col-lg-2'>{{ values.model }} </br></div>
+        <div class='col-2 col-lg-2'>{{ values.kolor }} </br></div>
+        <div class='col-2 col-lg-2'>{{ values.silnik }} </br></div>
+        {% if perms.Pojazd.add_pojazd %}
+        <div class='col-2 col-lg-2'>{% if values.przypisany == "1" %} dostępny {% else %} {{ values.przypisany }} {% endif %} </br></div>
+        {% endif %}
+        <div class=" bd-highlight">
+
+            <div class="d-inline-flex"> <a href='../pojazd/{{ values.rejestracja }}' class="btn-sm btn-primary"> wiecej </a> </br></div>
+            <div class="d-inline-flex"> <form type="GET" action='../usun/{{ values.rejestracja }}'><input type='submit' class="btn-sm btn-danger"  value='usuń'></form></div>
+        </div>
+    </div> 
+    <hr>
+    {% endfor %}
+
+</div>
+</div>
+</div>
+
+{% endblock %}
+
+
+
+{% block content_2 %}
+
+
+
+{%  endblock %}

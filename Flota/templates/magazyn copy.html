@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br/>
+<div class="container">
+    <div class="row">
+        <div class="col-2"> dodaj nowe </form></div> 
+         <div class="col-2">
+            
+            <form method="POST">
+                wyszukaj po nazwie: 
+                </div>
+                <div class="col-2">  
+    <input type='text' maxlength="100" name='kola'> {% csrf_token %}</br></br>
+    </div>
+    <div class="col"><input type='submit' value='szukaj'></div>
+    
+</form>
+<div name='row' class="row">
+  
+    <div class='cell'>   </div>
+    <div class='col-8'> znalenionych : {{ e }}</div>
+    <hr/>
+   {% for record, values in context.items %}
+    <div name='row'class="row"> {{ values.nazwa }} </div> 
+    <div class='col-2'>   {{ values.opony }} </br></div>
+    <div class='col-2'>{{ values.felgi }} </br></div>
+    <div class='col-2'> <a href=''>link do rozpisu </a> </br></div>
+    <hr/>
+    {% endfor %}
+
+</div>
+</div>
+
+{% endblock %}
+
+
+
+{% block content_2 %}
+
+
+
+{%  endblock %}

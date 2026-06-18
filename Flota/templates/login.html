@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+  <div class="card-header">
+    Logowanie
+
+  </div>
+  <div class="card-body" style="height :13em">
+
+      <form method="POST" action=''>  {% csrf_token %}
+    <div class="position-absolute top-50 start-50 translate-middle" style=" margin-top: 1em;"> 
+
+        <div style="padding-top:0.5em"><p class="text-danger small" > {{ error }} </p></div>
+        <table> 
+          <tr><td style="padding-right: 2em;">Login   </td> <td>  <input name="username" type='text' >   </td> </tr>
+          <tr><td style="padding-right: 2em;"> Hasło   </td> <td>  <input name="password" type='password' >  </td> </tr>
+          <tr><td> </td><td style="margin-top:0.3em;float: right;">  <input type='submit' value='zaloguj' class="btn btn-success" > </td> </tr>
+        </table>
+    </div>
+      
+      
+    
+    </form>
+    <blockquote class="blockquote mb-0">
+      <footer class="blockquote-footer" style="text-align: end; margin-top: 9em;"><cite title="Source Title">Auto musi jezdzic</cite></footer>
+    </blockquote>
+  </div>
+  </div>
+  </body>  
+    {%  endblock %}
