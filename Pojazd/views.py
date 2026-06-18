@@ -92,31 +92,8 @@ def pojazd_create_view(request,*args,**kwargs):
 
     elif request.user.is_authenticated:
         
-        new = {}
-        form_dane ={}
-        form_pojazd = PojazdForm()
-        ok=""
-        if request.method == 'POST':
-            form_dane = PojazdForm(request.POST, request.FILES)
-            if form_dane.is_valid(): 
-                reg = form_dane.cleaned_data['rejestracja']
-                pojazd = form_dane.cleaned_data
-                if 'zdjecie' in request.FILES:
-                    pojazd['zdjecie'] = request.FILES['zdjecie']
-                    pojazd['dodal'] = request.user.username
-                    form_dane = Pojazdtemp.objects.create(**pojazd)
-                    request.session['temp'] = form_dane.rejestracja
-                    form_pojazd = ""
-                
-                
-                    
-                else :
-                    print('nie ma zdjecia')
-        
-            else:
-                print(form_dane.errors)
-
-        if  request.POST.get('ok'):
+        # KROK 2: potwierdzenie -> przeniesienie z tabeli temp do glownej
+        if request.POST.get('ok'):
             # rejestracja z formularza (pewniejsze niz sesja na serverless), z fallbackiem do sesji
             reg = request.POST.get('reg') or request.session.get('temp')
             rows = Pojazdtemp.objects.filter(rejestracja=reg).values() if reg else None
@@ -130,13 +107,28 @@ def pojazd_create_view(request,*args,**kwargs):
             request.session.pop('temp', None)
             return redirect("../nowa-opona/?" + reg)    # do tworzenia opon i dalej felg
 
-        context = {
-            'form' : form_pojazd,
-            'obj' : form_dane,
-            }
-    
+        # KROK 1: walidacja formularza i zapis do tabeli tymczasowej
+        form_pojazd = PojazdForm()
+        obj = None
+        if request.method == 'POST':
+            form_dane = PojazdForm(request.POST, request.FILES)
+            if form_dane.is_valid():
+                pojazd = form_dane.cleaned_data
+                pojazd['zdjecie'] = request.FILES['zdjecie']
+                pojazd['dodal'] = request.user.username
+                # usun ewentualny stary rekord tymczasowy o tej samej rejestracji (pole unique)
+                Pojazdtemp.objects.filter(rejestracja=pojazd['rejestracja']).delete()
+                obj = Pojazdtemp.objects.create(**pojazd)
+                request.session['temp'] = obj.rejestracja
+                form_pojazd = ""                        # ukryj formularz, pokaz potwierdzenie
+            else:
+                form_pojazd = form_dane                 # pokaz formularz z bledami walidacji
 
-        return render (request, "create_view.html", context)
+        context = {
+            'form': form_pojazd,
+            'obj': obj,
+        }
+        return render(request, "create_view.html", context)
 
 @permission_required('Pojazd.add_pojazd')
 @login_required(redirect_field_name='login')

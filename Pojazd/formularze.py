@@ -16,9 +16,9 @@ class PojazdForm(forms.Form):
     przebieg        = forms.IntegerField()
     rejestracja     = forms.CharField (max_length=10)
     kolor           = forms.CharField (max_length=100)
-    data_zakupu     = forms.DateField (widget = forms.DateInput)
-    n_przeglad      = forms.DateField ()
-    oc_do           = forms.DateField ()
+    data_zakupu     = forms.DateField (widget = forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
+    n_przeglad      = forms.DateField (widget = forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
+    oc_do           = forms.DateField (widget = forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
     nr_polisy       = forms.CharField (max_length=40)
     zdjecie         = forms.FileField()
   
@@ -30,7 +30,7 @@ class PojazdForm(forms.Form):
 class HistoriaForm(forms.Form):
     
     wydarzenie          = forms.ChoiceField( choices = ( ('Serwis / Naprawa','Serwis / Naprawa'),('Szkoda / Wypadek', 'Szkoda / Wypadek'),('Inne','Inne')  ))                                                   
-    data_wydarzenia     = forms.DateField ()
+    data_wydarzenia     = forms.DateField (widget = forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
     opis                = forms.CharField (max_length=10000, widget=forms.Textarea)
     aktualny_przebieg   = forms.IntegerField()
     zdjecie             = forms.FileField (required=False)
@@ -62,7 +62,7 @@ class PojazdZmianaOponForm(forms.Form):
     opony           = forms.ModelChoiceField(queryset = Opona.objects.filter(w_uzytku = ""), initial=0)
     felgi           = forms.ModelChoiceField(queryset = Felga.objects.filter(w_uzytku = ""), initial=0)
     miejsce_zmiany  = forms.CharField(max_length=500)
-    data_zmiany     = forms.DateField()
+    data_zmiany     = forms.DateField(widget = forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
     uwagi           = forms.CharField (max_length=9500)
     zdjecie         = forms.FileField(required=False)
     przebieg        = forms.IntegerField()
@@ -77,7 +77,10 @@ class PojazdHistoriaPrzebieguForm(forms.ModelForm):
 
     class Meta:
         model = PojazdHistoriaPrzebiegu
-        fields =( 'cel','z', 'data', 'do','uwagi', 'przebieg_start' ,'przebieg_stop', 'kierowca'  )         
+        fields =( 'cel','z', 'data', 'do','uwagi', 'przebieg_start' ,'przebieg_stop', 'kierowca'  )
+        widgets = {
+            'data': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+        }
 
 
 
