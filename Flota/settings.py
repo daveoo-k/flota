@@ -134,6 +134,9 @@ STATICFILES_STORAGE = os.environ.get(
     'STATICFILES_STORAGE',
     'whitenoise.storage.CompressedStaticFilesStorage',
 )
+# WhiteNoise serwuje statyki (panel admina) wprost z finderów aplikacji —
+# bez potrzeby uruchamiania collectstatic w buildzie na Vercelu.
+WHITENOISE_USE_FINDERS = True
 
 
 # Media files (uploady) -------------------------------------------------------
