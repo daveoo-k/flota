@@ -144,8 +144,11 @@ WHITENOISE_USE_FINDERS = True
 # Lokalnie (bez CLOUDINARY_URL): domyślny storage do katalogu media/.
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Storage z deduplikacja po tresci (skrot SHA-256): to samo zdjecie = jeden plik.
 if os.environ.get('CLOUDINARY_URL'):
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    DEFAULT_FILE_STORAGE = 'Pojazd.storages.DedupCloudinaryStorage'
+else:
+    DEFAULT_FILE_STORAGE = 'Pojazd.storages.DedupFileSystemStorage'
 
 
 # Email (formularz kontaktowy) ------------------------------------------------

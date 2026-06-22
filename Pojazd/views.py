@@ -11,6 +11,7 @@ from django.db.models import Q
 from django.contrib.auth.context_processors import PermWrapper
 from django.utils import timezone
 from datetime import timedelta
+from urllib.parse import unquote
 from django.conf import settings
 from django.core.mail import EmailMessage
 
@@ -182,6 +183,7 @@ def opona_create_view(request,*args,**kwargs ):
 
     form_opona =  PojazdOponaForm()
     new_reg = request.get_full_path().lstrip('/nowa-opona/?reg=').rstrip('&ok=zapisz') # nr rejstracyjny dla przypisania opony odpowiedniemu pojazdowi
+    new_reg = unquote(new_reg) # dekodowanie %20 itd. dla rejestracji ze spacjami
     context = {      
                         'form' : form_opona }
 
@@ -212,6 +214,7 @@ def felga_create_view(request,*args,**kwargs):
 
     form_felga =  PojazdFelgaForm()
     new_reg = request.get_full_path().lstrip('/nowa-felga/?').rstrip('&ok=zapisz') # rejestracja pojazdu dla ktorego tworzy sie felge
+    new_reg = unquote(new_reg) # dekodowanie %20 itd. dla rejestracji ze spacjami
 
     context = {      
                         'form' : form_felga }
